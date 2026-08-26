@@ -136,6 +136,31 @@ pebble send-app-message --emulator emery --int 10000=9 10001=3 10002=4
 #                                              livery  comp1   comp2
 ```
 
+## If `pebble build` dies with a Python traceback
+
+```
+FileNotFoundError: [Errno 2] No such file or directory:
+  '.../Pebble SDK/SDKs/current/sdk-core/../.venv/bin/python'
+```
+
+The SDK builds inside its own virtualenv, and that venv is symlinked into a **specific
+Homebrew Cellar version** of Python. When `brew upgrade` bumps the patch release it
+deletes the old directory, the symlink dangles, and every build fails — nothing to do
+with this project. Repoint it at Homebrew's stable `opt` path, which survives upgrades:
+
+```sh
+SDK="$HOME/Library/Application Support/Pebble SDK/SDKs/current"
+STABLE="/opt/homebrew/opt/python@3.13/Frameworks/Python.framework/Versions/3.13"
+ln -sf "$STABLE/bin/python3.13" "$SDK/.venv/bin/python3.13"
+sed -i '' -E "s|/opt/homebrew/Cellar/python@3\.13/[^/]+/Frameworks/Python\.framework/Versions/3\.13|$STABLE|g" \
+  "$SDK/.venv/pyvenv.cfg"
+"$SDK/.venv/bin/python" -V     # should print a version, not an error
+```
+
+Patch upgrades keep the same ABI, so the packages already installed in the venv stay
+valid. If it is a *minor* upgrade (3.13 to 3.14), reinstall the SDK instead:
+`pebble sdk install latest`.
+
 ## Layout
 
 ```
