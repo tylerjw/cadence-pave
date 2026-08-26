@@ -1,0 +1,5 @@
+build/
+node_modules/
+shots/
+.pebble-*
+.lock-waf*

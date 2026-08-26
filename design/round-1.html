@@ -1,0 +1,1169 @@
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,400&family=Silkscreen:wght@400;700&family=Anton&display=swap">
+<title>Cadence Prototypes</title>
+
+<style>
+  :root{
+    --ground:#191A16;
+    --panel:#21231D;
+    --panel-2:#2A2C25;
+    --well:#101109;
+    --rule:#3A3D33;
+    --rule-soft:#2C2F27;
+    --ink:#EDEDE4;
+    --ink-2:#A8AC9C;
+    --ink-3:#767B69;
+    --accent:#F2B21C;
+    --maxw:1180px;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    background:var(--ground);
+    color:var(--ink);
+    font-family:"Newsreader",Georgia,serif;
+    font-size:17px;
+    line-height:1.62;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px}
+  h1,h2,h3,h4,.disp{font-family:"Archivo","Helvetica Neue",Arial,sans-serif;text-wrap:balance}
+  .eyebrow{
+    font-family:"Silkscreen",monospace;font-size:10px;letter-spacing:.1em;
+    color:var(--ink-3);text-transform:uppercase;
+  }
+  .mono{font-family:"Silkscreen",monospace;font-size:10px;letter-spacing:.06em;text-transform:uppercase}
+
+  /* ---------- header ---------- */
+  header{border-bottom:1px solid var(--rule);padding:54px 0 30px}
+  h1{
+    font-size:clamp(46px,8.5vw,88px);font-weight:800;letter-spacing:-.035em;
+    line-height:.92;margin:14px 0 0;text-transform:uppercase;
+  }
+  h1 span{color:var(--accent)}
+  .lede{
+    font-size:20px;line-height:1.55;color:var(--ink-2);max-width:62ch;margin:20px 0 0;
+  }
+  .lede b{color:var(--ink);font-weight:500}
+  .specs{display:flex;flex-wrap:wrap;gap:0;margin:28px 0 0;border:1px solid var(--rule)}
+  .spec{padding:10px 16px;border-right:1px solid var(--rule);flex:1 1 auto}
+  .spec:last-child{border-right:0}
+  .spec .k{font-family:"Silkscreen",monospace;font-size:9px;letter-spacing:.08em;color:var(--ink-3);display:block}
+  .spec .v{font-family:"Archivo",sans-serif;font-weight:700;font-size:15px;letter-spacing:-.01em;display:block;margin-top:3px}
+
+  /* ---------- controls ---------- */
+  .controls{
+    position:sticky;top:0;z-index:20;background:var(--ground);
+    border-bottom:1px solid var(--rule);padding:14px 0 16px;margin-bottom:0;
+  }
+  .ctl-grid{display:flex;flex-wrap:wrap;gap:22px 30px;align-items:flex-start}
+  .ctl{display:flex;flex-direction:column;gap:7px}
+  .ctl > .eyebrow{margin:0}
+  .chips{display:flex;flex-wrap:wrap;gap:5px}
+  button.chip{
+    font-family:"Archivo",sans-serif;font-size:11px;font-weight:700;letter-spacing:.04em;
+    text-transform:uppercase;color:var(--ink-2);background:var(--panel);
+    border:1px solid var(--rule);padding:6px 9px;cursor:pointer;line-height:1;
+    display:flex;align-items:center;gap:6px;border-radius:0;
+  }
+  button.chip:hover{border-color:var(--ink-3);color:var(--ink)}
+  button.chip[aria-pressed="true"]{background:var(--ink);color:var(--well);border-color:var(--ink)}
+  button.chip:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  .sw{width:9px;height:9px;display:inline-block;border:1px solid rgba(0,0,0,.45)}
+  .sw i{display:block;width:100%;height:100%}
+  .slider-row{display:flex;align-items:center;gap:12px;min-width:290px}
+  input[type=range]{
+    -webkit-appearance:none;appearance:none;background:transparent;width:210px;height:18px;cursor:pointer;
+  }
+  input[type=range]::-webkit-slider-runnable-track{height:4px;background:var(--rule)}
+  input[type=range]::-moz-range-track{height:4px;background:var(--rule)}
+  input[type=range]::-webkit-slider-thumb{
+    -webkit-appearance:none;width:12px;height:18px;background:var(--accent);margin-top:-7px;border-radius:0;
+  }
+  input[type=range]::-moz-range-thumb{width:12px;height:18px;background:var(--accent);border:0;border-radius:0}
+  input[type=range]:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
+  .clock{
+    font-family:"Archivo",sans-serif;font-weight:800;font-size:21px;letter-spacing:-.02em;
+    font-variant-numeric:tabular-nums;min-width:66px;
+  }
+  .hint{font-family:"Newsreader",serif;font-size:14px;color:var(--ink-3);font-style:italic}
+
+  /* ---------- device ---------- */
+  .dev{--z:2;display:inline-block;position:relative;padding:calc(3px * var(--z));
+    background:linear-gradient(158deg,#dcdcd4 0%,#a3a39a 38%,#77776f 62%,#c6c6bd 100%);
+    border-radius:calc(6px * var(--z));
+    box-shadow:0 calc(2px * var(--z)) calc(9px * var(--z)) rgba(0,0,0,.55);
+  }
+  .dev.bare{background:none;box-shadow:none;padding:0;border-radius:0}
+  .dev .bez{background:#0b0b0a;padding:calc(6px * var(--z)) calc(5px * var(--z));border-radius:calc(4px * var(--z));display:block;line-height:0}
+  .dev.bare .bez{background:none;padding:0;border-radius:0}
+  .dev canvas{display:block;width:calc(200px * var(--z));height:calc(228px * var(--z));image-rendering:pixelated}
+  .dev .btn{position:absolute;background:linear-gradient(90deg,#c9c9c0,#83837b);border-radius:calc(1px * var(--z))}
+  .dev.bare .btn{display:none}
+  .dev .btn.l{left:calc(-3px * var(--z));width:calc(3px * var(--z));height:calc(16px * var(--z));top:calc(84px * var(--z))}
+  .dev .btn.r{right:calc(-3px * var(--z));width:calc(3px * var(--z));height:calc(13px * var(--z))}
+  .dev .btn.r1{top:calc(46px * var(--z))}
+  .dev .btn.r2{top:calc(104px * var(--z))}
+  .dev .btn.r3{top:calc(162px * var(--z))}
+
+  /* ---------- sections ---------- */
+  section{padding:56px 0;border-bottom:1px solid var(--rule)}
+  .sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:8px}
+  .sec-head h2{
+    font-size:27px;font-weight:800;letter-spacing:-.02em;text-transform:uppercase;margin:0;
+  }
+  .sec-sub{color:var(--ink-2);max-width:66ch;margin:0 0 32px;font-size:17px}
+
+  .grid4{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:34px 26px}
+  .grid4.wide-z{grid-template-columns:1fr;justify-items:center}
+  @media (max-width:1000px){.grid4{grid-template-columns:1fr}}
+  .card{display:flex;flex-direction:column;gap:12px;align-items:center;text-align:center}
+  .card .name{font-family:"Archivo",sans-serif;font-weight:800;font-size:15px;letter-spacing:.04em;text-transform:uppercase}
+  .card .name em{font-style:normal;color:var(--ink-3);margin-right:7px;font-family:"Silkscreen",monospace;font-size:10px}
+  .card .thesis{font-size:15px;color:var(--ink-2);line-height:1.5;max-width:34ch}
+
+  .deep{display:grid;grid-template-columns:minmax(0,auto) minmax(0,1fr);gap:44px;align-items:start;padding:52px 0;border-bottom:1px dashed var(--rule-soft)}
+  .deep:last-of-type{border-bottom:0;padding-bottom:8px}
+  .deep .stage{display:flex;flex-direction:column;gap:14px;align-items:center}
+  .deep h3{font-size:34px;font-weight:800;letter-spacing:-.025em;text-transform:uppercase;margin:0 0 2px;line-height:1}
+  .deep h3 em{font-style:normal;font-family:"Silkscreen",monospace;font-size:12px;color:var(--accent);display:block;margin-bottom:10px;letter-spacing:.08em}
+  .deep .tagline{font-size:20px;color:var(--ink);margin:0 0 18px;font-style:italic}
+  .deep p{margin:0 0 15px;color:var(--ink-2);max-width:60ch}
+  .deep p strong{color:var(--ink);font-weight:500}
+  .deep .lbl{font-family:"Silkscreen",monospace;font-size:10px;letter-spacing:.08em;color:var(--accent);text-transform:uppercase;margin:22px 0 7px}
+  .tradeoff{border-left:2px solid var(--rule);padding:2px 0 2px 16px;color:var(--ink-3);font-size:16px;max-width:58ch}
+  .tradeoff b{color:var(--ink-2);font-weight:500}
+
+  /* ---------- liveries ---------- */
+  .liv-group{margin-bottom:30px}
+  .liv-group > .eyebrow{display:block;margin-bottom:12px;border-top:1px solid var(--rule);padding-top:10px}
+  .liv-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(258px,1fr));gap:18px}
+  .liv{border:1px solid var(--rule);padding:13px 14px;background:var(--panel);cursor:pointer;transition:border-color .12s}
+  .liv:hover{border-color:var(--ink-3)}
+  .liv:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  .liv.on{border-color:var(--accent)}
+  .liv .n{font-family:"Archivo",sans-serif;font-weight:800;font-size:13px;letter-spacing:.05em;text-transform:uppercase;display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+  .liv .n u{text-decoration:none;font-family:"Silkscreen",monospace;font-size:8px;color:var(--accent);opacity:0;letter-spacing:.06em}
+  .liv.on .n u{opacity:1}
+  .liv .d{font-size:14px;color:var(--ink-3);line-height:1.42;margin:5px 0 11px}
+  .liv .ramp{display:flex;gap:2px}
+  .liv .ramp div{flex:1;min-width:0}
+  .liv .ramp i{display:block;height:26px;border:1px solid rgba(0,0,0,.5)}
+  .liv .ramp b{display:block;font-family:"Silkscreen",monospace;font-size:8px;color:var(--ink-3);margin-top:5px;letter-spacing:0;font-weight:400}
+  .liv .ramp em{display:block;font-family:"Silkscreen",monospace;font-size:8px;color:var(--ink-2);font-style:normal;margin-top:2px;letter-spacing:0}
+
+  /* ---------- complications ---------- */
+  .wall{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:26px 20px;justify-items:center}
+  .wall .cell{display:flex;flex-direction:column;gap:9px;align-items:center}
+  .wall .cell span{font-family:"Silkscreen",monospace;font-size:9px;letter-spacing:.06em;color:var(--ink-3);text-transform:uppercase;text-align:center}
+  .comp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(500px,1fr));gap:30px 26px}
+  .comp{display:flex;flex-direction:column;gap:10px}
+  .comp .shot{background:var(--well);border:1px solid var(--rule);padding:16px;display:flex;gap:16px;align-items:center;justify-content:center;flex-wrap:wrap}
+  .comp .shot canvas{flex:0 0 auto}
+  .comp canvas{image-rendering:pixelated}
+  .comp h4{margin:0;font-size:14px;font-weight:800;letter-spacing:.05em;text-transform:uppercase}
+  .comp p{margin:0;font-size:15px;color:var(--ink-2);line-height:1.5}
+
+  /* ---------- notes ---------- */
+  .cols2{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:34px}
+  .note h4{font-size:15px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;margin:0 0 8px}
+  .note p{margin:0 0 13px;color:var(--ink-2)}
+  .note code{font-family:"Silkscreen",monospace;font-size:11px;background:var(--panel-2);padding:2px 5px;color:var(--ink)}
+  ul.tick{list-style:none;padding:0;margin:0}
+  ul.tick li{padding-left:20px;position:relative;margin-bottom:9px;color:var(--ink-2)}
+  ul.tick li::before{content:"";position:absolute;left:0;top:11px;width:8px;height:8px;background:var(--accent)}
+  ul.tick li b{color:var(--ink);font-weight:500}
+  ol.ask{list-style:none;counter-reset:q;padding:0;margin:0;display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+  ol.ask li{counter-increment:q;border-top:2px solid var(--accent);padding-top:12px}
+  ol.ask li::before{content:"Q" counter(q);font-family:"Silkscreen",monospace;font-size:10px;color:var(--accent);display:block;margin-bottom:6px}
+  ol.ask li b{font-family:"Archivo",sans-serif;font-weight:700;font-size:16px;display:block;margin-bottom:5px;color:var(--ink)}
+  ol.ask li span{color:var(--ink-2);font-size:15px}
+  footer{padding:40px 0 70px;color:var(--ink-3);font-size:15px}
+
+  @media (max-width:900px){
+    .deep{grid-template-columns:1fr;gap:26px}
+    .controls{position:static}
+  }
+  @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Pebble Time 2 &nbsp;&middot;&nbsp; watchface direction &nbsp;&middot;&nbsp; round three</div>
+    <h1>Cadence<span>.</span></h1>
+    <p class="lede">Two ways to build a cycling watchface for a <b>200&times;228, 64-colour, always-on e-paper</b> screen. Every render below is drawn to a real 200&times;228 canvas and blown up with nearest-neighbour, so you are looking at actual device pixels &mdash; not a smooth vector that will fall apart on the wrist. Scrub the day, swap the livery, pick your complications.</p>
+    <div class="specs">
+      <div class="spec"><span class="k">Display</span><span class="v">200 &times; 228 px</span></div>
+      <div class="spec"><span class="k">Density</span><span class="v">202 ppi / 1.5&Prime;</span></div>
+      <div class="spec"><span class="k">Colour</span><span class="v">64 (2 bits / channel)</span></div>
+      <div class="spec"><span class="k">Backlight</span><span class="v">Off by default</span></div>
+      <div class="spec"><span class="k">Complications</span><span class="v">One or two</span></div>
+    </div>
+  </header>
+
+  <div class="controls">
+    <div class="ctl-grid">
+      <div class="ctl">
+        <span class="eyebrow">Livery</span>
+        <div class="chips" id="c-livery"></div>
+      </div>
+      <div class="ctl">
+        <span class="eyebrow">Complications &mdash; pick one or two</span>
+        <div class="chips" id="c-comps"></div>
+      </div>
+      <div class="ctl">
+        <span class="eyebrow">Time of day</span>
+        <div class="slider-row">
+          <input type="range" id="c-time" min="0" max="1439" step="1" value="1054" aria-label="Time of day">
+          <span class="clock" id="c-clock">17:34</span>
+        </div>
+      </div>
+      <div class="ctl">
+        <span class="eyebrow">Render</span>
+        <div class="chips" id="c-render"></div>
+      </div>
+      <div class="ctl">
+        <span class="eyebrow">Zoom &mdash; 1&times; is life size</span>
+        <div class="chips" id="c-zoom"></div>
+      </div>
+    </div>
+  </div>
+
+  <section>
+    <div class="sec-head"><h2>The two directions</h2><span class="mono" id="livename">&mdash;</span></div>
+    <p class="sec-sub">Both carry the idea you liked in Halcyon: <em>the shape of your day, drawn around the outside, where it costs nothing.</em> They disagree about what shape that is &mdash; a lap, or a row of blocks. Metric and Route are gone; Route asked the screen for detail it does not have.</p>
+    <div class="grid4" id="grid"></div>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2>The argument for each</h2></div>
+    <div id="deep"></div>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2>Liveries</h2><span class="mono">every colour snapped to the 64-colour palette</span></div>
+    <p class="sec-sub">The Pebble's palette is two bits per channel: every value is 00, 55, AA or FF. There is no #FC6719. Rather than fight that, I picked liveries whose brand colours land near palette entries anyway &mdash; Zwift's orange resolves to <code style="font-family:Silkscreen,monospace;font-size:12px">#FF5500</code>, which is literally <code style="font-family:Silkscreen,monospace;font-size:12px">GColorOrange</code>. Marks are drawn as original geometry in each brand's palette, not lifted logos.</p>
+    <div id="liveries"></div>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2>The livery wall</h2><span class="mono" id="wallname">&mdash;</span></div>
+    <p class="sec-sub">Every fabric on one face, at whatever the zoom control is set to. Drop to 1&times; to see all eleven at life size &mdash; that is the honest test of which ones survive on a reflective screen.</p>
+    <div class="chips" id="c-wall" style="margin-bottom:26px"></div>
+    <div class="wall" id="wall"></div>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2>The complication set</h2><span class="mono">one wide slot, or two narrow</span></div>
+    <p class="sec-sub">Each one is drawn twice: at the wide size it gets when it's the only complication, and the narrow size it gets when you run two. Nothing here needs a sub-pixel line or a chart.</p>
+    <div class="comp-grid" id="comps"></div>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2>Rules I designed to</h2></div>
+    <div class="cols2">
+      <div class="note">
+        <h4>One colour, one job</h4>
+        <p>A livery may use white in more than one role, but no two roles that <em>touch on screen</em> may share a value &mdash; field, daylight, night and accent are now four distinct colours in every livery, and the secondary text colour is checked against its own field rather than inherited from the kit.</p>
+        <p>The marks drawn <em>on</em> the track &mdash; sunrise and sunset bars, the wheel, the lane paint, the stencil &mdash; no longer trust the palette at all. Each one resolves at draw time against the specific surfaces it crosses, picking whichever of the livery's colours holds up. That is what stops a white tick landing on a white track.</p>
+      </div>
+      <div class="note">
+        <h4>The screen, honestly</h4>
+        <p>Reflective e-paper has no backlight in normal use, so <strong>contrast beats saturation</strong>. Every livery pins its field to either a very light or very dark value and never asks you to read mid-grey on mid-grey. Turn on <em>E-paper sim</em> in the control bar to see the muted, papery version &mdash; that is closer to the wrist than the vivid version.</p>
+        <p>Turn <em>64-colour</em> off and on: the difference is small precisely because every colour was chosen on the palette grid in the first place.</p>
+      </div>
+      <div class="note">
+        <h4>Deliberately absent</h4>
+        <ul class="tick">
+          <li><b>No hands.</b> At 202 ppi a swept hand is a staircase, and you asked to lean digital.</li>
+          <li><b>No hairlines.</b> Nothing thinner than 2 px, no 1-px chapter rings, no dotted minute tracks.</li>
+          <li><b>No elevation profile, no ride stats.</b> That's a head unit's job. This is a watch you happen to ride in.</li>
+          <li><b>No battery meter.</b> Thirty days between charges is the best thing about this watch. A gauge you never need to look at is just a gauge in the way &mdash; so the slot went to the kit instead.</li>
+          <li><b>No rounded corners anywhere on the face.</b> Every edge lands on the pixel grid.</li>
+          <li><b>One numeral face: Anton.</b> Condensed enough that the digits get bigger everywhere &mdash; the auto-fit was hitting the width ceiling before, and now it hits the height ceiling instead. Small labels stay on Silkscreen, snapped to its 8&nbsp;px design ladder.</li>
+        </ul>
+      </div>
+      <div class="note">
+        <h4>Where the whimsy is hidden</h4>
+        <p>Following the Brew's espresso zone &mdash; a joke that is also a functional scale &mdash; the cycling references here all <em>do</em> something:</p>
+        <ul class="tick">
+          <li><b>Flamme rouge.</b> The last hour before sunset burns accent-red on the day track. The 1 km kite, telling you how much light is left.</li>
+          <li><b>Start / finish.</b> Midnight is a checkered block, top dead centre. Your day is one lap of a circuit.</li>
+          <li><b>The wheel.</b> "Now" is a hub-and-tyre marker riding the track.</li>
+          <li><b>The swatch.</b> A patch of the kit's own fabric &mdash; Mapei's cubes, Ineos's dithered drip, Visma's chest bands, Surly's check. One purely decorative block, different in every livery.</li>
+          <li><b>The race plate.</b> The date complication is a number board with a punched border.</li>
+        </ul>
+      </div>
+      <div class="note">
+        <h4>What came off the board</h4>
+        <p><strong>Metric</strong> put a ring in a square, which wasted all four corners and left an exergue too shallow to hold two complications at a readable size. It was the most watch-like of the four and the least useful.</p>
+        <p><strong>Route</strong> died of resolution. The bike lane worked at 3&times; and dissolved at 1&times;: a lane stencil, chevrons and edge lines are a lot of small marks competing inside 52 px of width, and the screen does not have the detail to carry them. A pattern survives the pixel grid; a drawing of a thing mostly does not. That is the same lesson that killed the jersey.</p>
+      </div>
+      <div class="note">
+        <h4>The label that said nothing</h4>
+        <p>There used to be a word next to the time reading DAY or NIGHT. It was naming the sun's phase &mdash; which the track already draws, in colour, at a glance. A label that only ever repeats the graphic beside it is noise, so it is gone.</p>
+        <p>What is left in that slot is a tag that stays silent until it has something to say: when the last hour of daylight begins, <strong>FLAMME ROUGE</strong> lights up in the accent colour, matching the segment burning on the track. The rest of the day, the slot is empty.</p>
+      </div>
+      <div class="note">
+        <h4>Second time zone, not GMT</h4>
+        <p>The GMT complication is a <strong>named zone</strong>, not a fixed UTC offset &mdash; it shows a three-to-five letter city tag, the local time there, and a filled or hollow pip for whether it's day or night at the other end. It defaults to Paris, for reasons I hope are obvious in July.</p>
+        <p>Because sunrise and sunset are already drawn into every face, the Sun complication earns its slot by giving you the <em>exact</em> times plus a countdown, not a repeat of the graphic.</p>
+      </div>
+    </div>
+  </section>
+
+  <section style="border-bottom:0">
+    <div class="sec-head"><h2>What I need from you</h2></div>
+    <p class="sec-sub">One more narrowing and this gets built.</p>
+    <ol class="ask">
+      <li><b>Criterium or Pav&eacute;?</b><span>Both survive on merit. Criterium is the one you could wear every day; Pav&eacute; is the one people ask you about. Pick which gets built first.</span></li>
+      <li><b>Which five fabrics?</b><span>Use the livery wall at 1&times;. Mapei and La Vie Claire are the strongest at this resolution &mdash; but they are also the least likely to be what you actually want on your wrist on a Tuesday.</span></li>
+      <li><b>Which two complications live on the default face?</b><span>You get one or two. Sun and weather is my guess; date and second-zone is the traveller&rsquo;s answer.</span></li>
+      <li><b>12 or 24 hour, &deg;F or &deg;C?</b><span>The last small calls before this becomes code.</span></li>
+    </ol>
+  </section>
+
+  <footer>
+    Round three. Two directions, eleven fabrics, five complications, one numeral face. Nothing is built yet.
+  </footer>
+</div>
+
+<script>
+(function(){
+"use strict";
+
+const W=200,H=228;
+
+/* ============================== LIVERIES ============================== */
+/* every value is on the Pebble 2-bit-per-channel grid: 00 / 55 / AA / FF */
+const LIVERIES=[
+ {id:"zwift",group:"Brands",name:"Zwift",note:"Black tarmac, watt-bolt orange, a Tron-blue last hour.",
+  c:{bg:"#000000",ink:"#FFFFFF",dim:"#AAAAAA",day:"#FF5500",night:"#005555",accent:"#55FFFF",
+     panel:"#555555",panelInk:"#FFFFFF",line:"#555555",chk:"#FFFFFF",road:"#555555"},
+  sw:{type:"diag",rows:[[8,"#FF5500"],[7,"#000000"],[3,"#55FFFF"],[7,"#000000"]]}},
+ {id:"spec",group:"Brands",name:"Specialized",note:"Red daylight on black. The only other colour is the last hour.",
+  c:{bg:"#000000",ink:"#FFFFFF",dim:"#AAAAAA",day:"#FF0000",night:"#555555",accent:"#FFAA00",
+     panel:"#AA0000",panelInk:"#FFFFFF",line:"#555555",chk:"#FFFFFF",road:"#555555"},
+  sw:{type:"bands",rows:[[9,"#FF0000"],[7,"#000000"],[2,"#FFFFFF"],[7,"#000000"]]}},
+ {id:"trek",group:"Brands",name:"Trek",note:"White field, team blue daylight, a red flash.",
+  c:{bg:"#FFFFFF",ink:"#000000",dim:"#555555",day:"#0055AA",night:"#000055",accent:"#FF0000",
+     panel:"#0055AA",panelInk:"#FFFFFF",line:"#000055",chk:"#000000",road:"#000055"},
+  sw:{type:"vstripe",rows:[[13,"#0055AA"],[5,"#FF0000"],[3,"#FFFFFF"],[5,"#000055"]]}},
+ {id:"cerv",group:"Brands",name:"Cerv\u00E9lo",note:"White, black, one red. The highest-contrast face here.",
+  c:{bg:"#FFFFFF",ink:"#000000",dim:"#555555",day:"#000000",night:"#AAAAAA",accent:"#FF0000",
+     panel:"#FFFFFF",panelInk:"#000000",line:"#000000",chk:"#000000",road:"#AAAAAA"},
+  sw:{type:"bands",rows:[[16,"#000000"],[3,"#FF0000"],[16,"#000000"],[3,"#FFFFFF"]]}},
+ {id:"surly",group:"Brands",name:"Surly",note:"Acid green on black, burnt orange for the run home.",
+  c:{bg:"#000000",ink:"#FFFFFF",dim:"#AAAAAA",day:"#AAFF00",night:"#005500",accent:"#FF5500",
+     panel:"#AAFF00",panelInk:"#000000",line:"#005500",chk:"#AAFF00",road:"#005500"},
+  sw:{type:"check",size:6,cols:["#AAFF00","#000000","#005500","#000000"]}},
+
+ {id:"ef",group:"Teams",name:"EF Education",note:"Pink field, duck-egg daylight. The best-looking kit in the peloton.",
+  c:{bg:"#FF55AA",ink:"#000000",dim:"#AA0055",day:"#AAFFFF",night:"#AA0055",accent:"#FF0000",
+     panel:"#000000",panelInk:"#AAFFFF",line:"#000000",chk:"#000000",road:"#AA0055"},
+  sw:{type:"bands",rows:[[10,"#FF55AA"],[8,"#AAFFFF"],[3,"#000000"],[8,"#AAFFFF"]]}},
+ {id:"visma",group:"Teams",name:"Visma | Lease a Bike",note:"Yellow and black, the most legible pair on e-paper.",
+  c:{bg:"#000000",ink:"#FFFFFF",dim:"#AAAAAA",day:"#FFFF00",night:"#555500",accent:"#FF0000",
+     panel:"#FFFF00",panelInk:"#000000",line:"#555500",chk:"#FFFF00",road:"#555500"},
+  sw:{type:"bands",rows:[[11,"#FFFF00"],[8,"#000000"],[3,"#FFFF00"],[8,"#000000"]]}},
+ {id:"ineos",group:"Teams",name:"Ineos '26",note:"The new orange-and-white drip, with the old navy kept for the last hour.",
+  c:{bg:"#FFFFFF",ink:"#000000",dim:"#555555",day:"#FF5500",night:"#555555",accent:"#0055AA",
+     panel:"#FF5500",panelInk:"#FFFFFF",line:"#AA5500",chk:"#000000",road:"#555555"},
+  sw:{type:"dither",cols:["#FF5500","#FFFFFF"]}},
+
+ {id:"lvc",group:"Heritage",name:"La Vie Claire",note:"Mondrian on a jersey in 1986. Already made of blocks.",
+  c:{bg:"#FFFFFF",ink:"#000000",dim:"#555555",day:"#FFFF00",night:"#0055AA",accent:"#FF0000",
+     panel:"#FFFFFF",panelInk:"#000000",line:"#000000",chk:"#000000",road:"#0055AA"},
+  multi:["#FF0000","#FFFF00","#0055AA","#000000"],
+  sw:{type:"blocks",gut:"#000000",cols:["#FFFFFF","#FF0000","#FFFF00","#0055AA"],
+      rects:[[0,0,.60,.30,0],[.64,0,1,.30,1],[0,.34,1,.60,2],[0,.64,.44,1,3],[.48,.64,1,1,0]]}},
+ {id:"mapei",group:"Heritage",name:"Mapei",note:"The cubes. A palette invented for a pixel grid forty years early.",
+  c:{bg:"#FFFFFF",ink:"#000000",dim:"#555555",day:"#00AA00",night:"#0055AA",accent:"#FF0000",
+     panel:"#FFFFFF",panelInk:"#000000",line:"#000000",chk:"#000000",road:"#0055AA"},
+  multi:["#FF0000","#0055AA","#00AA00","#FFFF00"],
+  sw:{type:"cubes",size:11,gut:"#FFFFFF",cols:["#FF0000","#0055AA","#00AA00","#FFFF00","#FFFFFF"]}},
+ {id:"brew",group:"Heritage",name:"Espresso",note:"For the Brew Metric: cream, teal, chrome yellow, burnt orange.",
+  c:{bg:"#000000",ink:"#FFFFAA",dim:"#AAAA55",day:"#FFAA00",night:"#005555",accent:"#FF0000",
+     panel:"#005555",panelInk:"#FFFFAA",line:"#005555",chk:"#FFFFAA",road:"#005555"},
+  sw:{type:"bands",rows:[[7,"#FFAA00"],[5,"#000000"],[7,"#005555"],[5,"#000000"],[4,"#FFFFAA"],[5,"#000000"]]}}
+];
+
+/* ============================== SAMPLE STATE ============================== */
+const S={
+  sunrise:6*60+14, sunset:20*60+2,
+  moon:0.289, moonPct:62, moonShort:"WAX GIB", moonLong:"WAXING GIBBOUS",
+  tz:"PARIS", tzOff:8,
+  temp:76, hi:88, lo:57, sky:"sun",
+  dd:24, dow:"MON", mon:"AUG", monLong:"AUGUST"
+};
+
+const COMPS=[
+  {id:"gmt",  label:"GMT / 2nd zone"},
+  {id:"moon", label:"Moon phase"},
+  {id:"sun",  label:"Sunrise / sunset"},
+  {id:"wx",   label:"Weather"},
+  {id:"date", label:"Date"}
+];
+
+/* one numeral face, by request: Anton. Silkscreen stays the label face. */
+const FACE_FAM='Anton';
+
+const CONCEPTS=[
+ {id:"criterium",n:"01",name:"Criterium",thesis:"The day as one lap of a circuit, run around the perimeter of the screen."},
+ {id:"pave",     n:"02",name:"Pav\u00E9",     thesis:"Everything is a block, including the hours. Built for heritage liveries."}
+];
+
+/* ============================== UI STATE ============================== */
+const state={
+  livery:"zwift",
+  wall:"criterium",
+  comps:["sun","wx"],
+  t:17*60+34,
+  quant:true, epaper:false, casing:true, h12:false,
+  zoom:2
+};
+
+/* ============================== CANVAS HELPERS ============================== */
+function R(x,y,w,h,c){var g=CTX;g.fillStyle=c;g.fillRect(Math.round(x),Math.round(y),Math.round(w),Math.round(h));}
+function frame(x,y,w,h,t,c){R(x,y,w,t,c);R(x,y+h-t,w,t,c);R(x,y+t,t,h-2*t,c);R(x+w-t,y+t,t,h-2*t,c);}
+let CTX=null;
+
+function famOf(){return FACE_FAM;}
+
+/* cap-height metrics cache: px size that yields capH for a family */
+const capCache={};
+function sizeForCap(fam,capH){
+  const key=fam;
+  if(!capCache[key]){
+    CTX.font='100px '+fam;
+    const m=CTX.measureText('0');
+    capCache[key]={asc:m.actualBoundingBoxAscent||70, adv:m.width||55};
+  }
+  return capH*100/capCache[key].asc;
+}
+function measureAt(str,fam,size){CTX.font=size+'px '+fam;return CTX.measureText(str).width;}
+
+/* draw text fitted to a cap height and a max width */
+function fit(str,fam,o){
+  let size=sizeForCap(fam,o.capH);
+  let w=measureAt(str,fam,size);
+  if(o.maxW&&w>o.maxW){size=size*o.maxW/w;w=measureAt(str,fam,size);}
+  if(fam==='Silkscreen'){
+    size=Math.max(8,Math.floor(size/8)*8);w=measureAt(str,fam,size);
+    while(o.maxW&&w>o.maxW&&size>8){size-=8;w=measureAt(str,fam,size);}
+  }
+  CTX.font=size+'px '+fam;
+  CTX.fillStyle=o.color;
+  CTX.textBaseline='alphabetic';
+  let x=o.x;
+  if(o.align==='center')x=o.x-w/2;
+  else if(o.align==='right')x=o.x-w;
+  CTX.fillText(str,Math.round(x),Math.round(o.y));
+  return {x:Math.round(x),w:w,right:Math.round(x+w)};
+}
+/* Silkscreen is a bitmap face: it is only crisp at multiples of its 8 px design
+   size, so labels snap to that ladder and step down rather than scale. */
+function label(str,o){
+  const capH=o.capH||9;
+  let size=Math.max(8,Math.round(sizeForCap('Silkscreen',capH)/8)*8);
+  let w=measureAt(str,'Silkscreen',size);
+  while(o.maxW&&w>o.maxW&&size>8){size-=8;w=measureAt(str,'Silkscreen',size);}
+  if(o.maxW&&w>o.maxW){size=size*o.maxW/w;w=measureAt(str,'Silkscreen',size);}
+  CTX.font=size+'px Silkscreen';
+  CTX.fillStyle=o.color;
+  CTX.textBaseline='alphabetic';
+  let x=o.x;
+  if(o.align==='center')x=o.x-w/2; else if(o.align==='right')x=o.x-w;
+  CTX.fillText(str,Math.round(x),Math.round(o.y));
+  return {x:Math.round(x),w:w,right:Math.round(x+w)};
+}
+function blend(a,b,w){ /* w = weight toward a, snapped back onto the palette */
+  const pa=hex(a),pb=hex(b);
+  return rgb(snap(pa[0]*w+pb[0]*(1-w)),snap(pa[1]*w+pb[1]*(1-w)),snap(pa[2]*w+pb[2]*(1-w)));
+}
+
+/* HH : MM with a hand-built square colon so the gap is ours, not the font's.
+   The AM/PM tag is laid out as part of the block and counted in the fit width -
+   appending it afterwards is what pushed it into the track. */
+function bigTime(o){
+  const fam=famOf();
+  const hh=o.hh,mm=o.mm,suf=o.suf||null;
+  let capH=o.capH;
+  let size=sizeForCap(fam,capH);
+  let wh=measureAt(hh,fam,size), wm=measureAt(mm,fam,size);
+  let dot=Math.max(3,Math.round(capH*0.15));
+  let gap=Math.round(capH*0.20);
+  /* the tag rides the bitmap ladder whatever the numeral face is */
+  let sufSize=suf?Math.max(8,Math.round(sizeForCap('Silkscreen',Math.max(7,capH*0.30))/8)*8):0;
+  let sufW=suf?measureAt(suf,'Silkscreen',sufSize):0;
+  let sufGap=suf?Math.max(4,Math.round(capH*0.16)):0;
+  const body=()=>wh+gap+dot+gap+wm;
+  let total=body()+sufGap+sufW;
+  if(total>o.maxW){
+    const k=o.maxW/total;
+    capH*=k;size*=k;wh*=k;wm*=k;
+    dot=Math.max(3,Math.round(capH*0.15));gap=Math.round(capH*0.20);
+    if(suf){
+      sufSize=Math.max(8,Math.round(sizeForCap('Silkscreen',Math.max(7,capH*0.30))/8)*8);
+      sufW=measureAt(suf,'Silkscreen',sufSize);
+      sufGap=Math.max(4,Math.round(capH*0.16));
+    }
+    total=body()+sufGap+sufW;
+    /* the tag has a floor, so one more pass on the digits alone */
+    if(total>o.maxW){
+      const k2=(o.maxW-sufGap-sufW)/body();
+      if(k2>0.2){capH*=k2;size*=k2;wh*=k2;wm*=k2;
+        dot=Math.max(3,Math.round(capH*0.15));gap=Math.round(capH*0.20);
+        total=body()+sufGap+sufW;}
+    }
+  }
+  if(fam==='Silkscreen'){
+    const snapped=Math.max(8,Math.floor(size/8)*8);
+    if(snapped!==size){
+      const k2=snapped/size;
+      size=snapped;capH*=k2;wh*=k2;wm*=k2;
+      dot=Math.max(3,Math.round(capH*0.15));gap=Math.round(capH*0.20);
+      total=body()+sufGap+sufW;
+    }
+  }
+  let x=o.x;
+  if(o.align==='center')x=o.x-total/2; else if(o.align==='right')x=o.x-total;
+  x=Math.round(x);
+  CTX.font=size+'px '+fam;CTX.fillStyle=o.color;CTX.textBaseline='alphabetic';
+  CTX.fillText(hh,x,Math.round(o.y));
+  const cx=x+wh+gap;
+  R(cx,o.y-capH*0.72,dot,dot,o.colonColor||o.color);
+  R(cx,o.y-capH*0.30,dot,dot,o.colonColor||o.color);
+  CTX.font=size+'px '+fam;CTX.fillStyle=o.color;
+  CTX.fillText(mm,Math.round(cx+dot+gap),Math.round(o.y));
+  if(suf){
+    CTX.font=sufSize+'px Silkscreen';
+    CTX.fillStyle=o.sufColor||o.color;
+    CTX.fillText(suf,Math.round(x+body()+sufGap),Math.round(o.y));
+  }
+  return {left:x,right:Math.round(x+total),capH:capH};
+}
+
+/* pixel disc, drawn row by row so it steps like the hardware will */
+function disc(cx,cy,r,color){
+  CTX.fillStyle=color;
+  for(let y=-r;y<r;y++){
+    const yy=y+0.5;
+    const hw=Math.sqrt(Math.max(0,r*r-yy*yy));
+    const x0=Math.round(cx-hw),x1=Math.round(cx+hw);
+    if(x1>x0)CTX.fillRect(x0,Math.round(cy+y),x1-x0,1);
+  }
+}
+function moonDisc(cx,cy,r,p,lit,dark){
+  disc(cx,cy,r,dark);
+  const k=Math.cos(2*Math.PI*p);
+  CTX.fillStyle=lit;
+  for(let y=-r;y<r;y++){
+    const yy=y+0.5;
+    const hw=Math.sqrt(Math.max(0,r*r-yy*yy));
+    let a,b;
+    if(p<0.5){a=k*hw;b=hw;}else{a=-hw;b=-k*hw;}
+    const x0=Math.round(cx+a),x1=Math.round(cx+b);
+    if(x1>x0)CTX.fillRect(x0,Math.round(cy+y),x1-x0,1);
+  }
+}
+/* blocky ring / tyre marker for "now" */
+function wheel(cx,cy,r,tyre,hub){
+  disc(cx,cy,r,tyre);
+  disc(cx,cy,Math.max(1,Math.round(r*0.34)),hub);
+}
+/* A swatch of the kit's own fabric. No silhouette to get wrong: every pixel is
+   pattern, which is the one kind of graphic that gets BETTER as resolution drops. */
+const BAYER=[[0,8,2,10],[12,4,14,6],[3,11,1,9],[15,7,13,5]];
+function patRun(pat,total,m){
+  let off=m%total;
+  for(let k=0;k<pat.length;k++){if(off<pat[k][0])return [pat[k][1],pat[k][0]-off];off-=pat[k][0];}
+  return [pat[0][1],1];
+}
+function drawSwatch(x,y,w,h,L,framed){
+  const c=L.c, sw=L.sw||{type:"bands",rows:[[6,c.day],[4,c.accent]]};
+  const pat=sw.rows||[[6,c.day],[4,c.accent]];
+  const total=pat.reduce(function(a,b){return a+b[0];},0);
+  if(sw.type==="bands"){
+    for(let j=0;j<h;j++){const r=patRun(pat,total,j);R(x,y+j,w,1,r[0]);}
+  }else if(sw.type==="vstripe"){
+    for(let i=0;i<w;i++){const r=patRun(pat,total,i);R(x+i,y,1,h,r[0]);}
+  }else if(sw.type==="diag"){
+    for(let j=0;j<h;j++){
+      let i=0;
+      while(i<w){const r=patRun(pat,total,i+j);const run=Math.min(r[1],w-i);R(x+i,y+j,run,1,r[0]);i+=run;}
+    }
+  }else if(sw.type==="check"||sw.type==="cubes"){
+    /* cell edges are derived from the box, so the weave never ends mid-cube */
+    const n=sw.size||8, gap=(sw.type==="cubes")?2:0;
+    const nx=Math.max(2,Math.round(w/n)), ny=Math.max(2,Math.round(h/n));
+    if(gap)R(x,y,w,h,sw.gut||c.bg);
+    for(let gy=0;gy<ny;gy++)for(let gx=0;gx<nx;gx++){
+      const x0=Math.round(gx*w/nx),x1=Math.round((gx+1)*w/nx);
+      const y0=Math.round(gy*h/ny),y1=Math.round((gy+1)*h/ny);
+      const col=(sw.type==="check")?sw.cols[(gx+gy)%sw.cols.length]
+                                   :sw.cols[(gx*3+gy*7+((gx*gy)%5))%sw.cols.length];
+      R(x+x0,y+y0,x1-x0-gap,y1-y0-gap,col);
+    }
+  }else if(sw.type==="dither"){
+    /* ordered dither: the only honest way to draw a fade on a 64-colour screen */
+    for(let j=0;j<h;j++){
+      const t=h>1?j/(h-1):0;
+      for(let i=0;i<w;i++){
+        const th=(BAYER[j%4][i%4]+0.5)/16;
+        R(x+i,y+j,1,1,t>th?sw.cols[1]:sw.cols[0]);
+      }
+    }
+  }else if(sw.type==="blocks"){
+    R(x,y,w,h,sw.gut||"#000000");
+    sw.rects.forEach(function(r){
+      R(x+Math.round(r[0]*w),y+Math.round(r[1]*h),
+        Math.round((r[2]-r[0])*w),Math.round((r[3]-r[1])*h),sw.cols[r[4]]);
+    });
+  }
+  /* a cut edge, so a fabric whose own ground matches the field still reads as cloth */
+  if(framed)frame(x-1,y-1,w+2,h+2,1,markOn([c.bg],c));
+}
+function triangle(cx,y,w,h,dir,c){ /* chunky pixel triangle, dir 1=down -1=up */
+  CTX.fillStyle=c;
+  const rows=h;
+  for(let i=0;i<rows;i++){
+    const t=(dir>0)?i/rows:1-(i+1)/rows;
+    const ww=Math.max(1,Math.round(w*(1-t)));
+    CTX.fillRect(Math.round(cx-ww/2),y+i,ww,1);
+  }
+}
+function checker(x,y,w,h,cols,rows,a,b){
+  const cw=w/cols, ch=h/rows;
+  for(let i=0;i<cols;i++)for(let j=0;j<rows;j++)
+    R(x+i*cw,y+j*ch,Math.ceil(cw),Math.ceil(ch),((i+j)%2)?b:a);
+}
+function skyIcon(x,y,c,dim,kind){
+  /* 26 x 20 blocky weather glyph */
+  if(kind==='sun'||kind==='part'){
+    disc(x+9,y+9,7,c);
+    R(x+8,y-1,3,3,c);R(x+8,y+17,3,3,c);R(x-1,y+8,3,3,c);R(x+17,y+8,3,3,c);
+    R(x+2,y+2,3,3,c);R(x+14,y+2,3,3,c);R(x+2,y+14,3,3,c);R(x+14,y+14,3,3,c);
+  }
+  if(kind==='part'||kind==='cloud'||kind==='rain'){
+    const ox=(kind==='part')?x+8:x+1, oy=(kind==='part')?y+8:y+4;
+    R(ox+2,oy+6,18,7,dim);R(ox+5,oy+2,9,5,dim);R(ox+12,oy+4,7,4,dim);
+  }
+  if(kind==='rain'){R(x+5,y+16,3,5,c);R(x+11,y+16,3,5,c);R(x+17,y+16,3,5,c);}
+}
+
+/* ============================== TIME HELPERS ============================== */
+function pad(n){return (n<10?'0':'')+n;}
+function hhmm(mins){
+  mins=((mins%1440)+1440)%1440;
+  let h=Math.floor(mins/60),m=mins%60,suf=null;
+  if(state.h12){suf=h<12?'AM':'PM';h=h%12;if(h===0)h=12;return{hh:String(h),mm:pad(m),suf:suf};}
+  return {hh:pad(h),mm:pad(m),suf:null};
+}
+function isDay(t){return t>=S.sunrise&&t<S.sunset;}
+function nextSun(t){
+  if(t<S.sunrise)return{k:"SUNRISE",at:S.sunrise,d:-1};
+  if(t<S.sunset)return{k:"SUNSET",at:S.sunset,d:1};
+  return{k:"SUNRISE",at:S.sunrise+1440,d:-1};
+}
+function dur(mins){
+  const h=Math.floor(mins/60),m=mins%60;
+  return h>0?(h+"H "+pad(m)+"M"):(m+"M");
+}
+
+/* ============================== COMPLICATIONS ============================== */
+function drawComp(id,b,L,t){
+  const c=L.c, fam=famOf();
+  R(b.x,b.y,b.w,b.h,c.panel);
+  if(c.panel===c.bg)frame(b.x,b.y,b.w,b.h,1,c.line);
+  const ink=c.panelInk;
+  /* a tint of the ink reads as subordinate - but only while it still has somewhere
+     to stand. When the palette can't produce one, hierarchy falls back to size. */
+  let dim=(c.panel===c.bg)?c.dim:blend(ink,c.panel,0.65);
+  if(Math.abs(lum(dim)-lum(c.panel))<90)dim=ink;
+  const wide=b.w>=140;
+  const compact=b.h<50;         /* the shallow windows on Route */
+  const p=compact?4:6;
+  const L1=b.y+p+8;             /* label baseline */
+  const V=b.y+b.h-p-1;          /* value baseline */
+  const VC=compact?18:(wide?26:20);   /* value cap height */
+
+  if(id==='gmt'){
+    const tt=(t+S.tzOff*60)%1440;
+    const z=hhmm(tt);
+    label(S.tz+(wide?(" +"+S.tzOff):""),{x:b.x+p,y:L1,color:dim,maxW:b.w-p*2-10});
+    const lit=isDay(tt);
+    const px=b.x+b.w-p-7;
+    if(lit)R(px,L1-8,7,7,ink); else frame(px,L1-8,7,7,2,ink);
+    bigTime({hh:z.hh,mm:z.mm,suf:z.suf,x:b.x+p,y:V,capH:VC,maxW:b.w-p*2,color:ink,sufColor:dim,align:'left'});
+  }
+
+  else if(id==='moon'){
+    const r=compact?11:(wide?17:13);
+    moonDisc(b.x+p+r,b.y+b.h/2,r,S.moon,ink,blend(ink,c.panel,0.45));
+    const tx=b.x+p+r*2+8;
+    label(compact?S.moonShort:(wide?S.moonLong:S.moonShort),{x:tx,y:L1,color:dim,maxW:b.w-(tx-b.x)-p});
+    fit(S.moonPct+"%",fam,{x:tx,y:V,capH:VC,maxW:b.w-(tx-b.x)-p,color:ink});
+  }
+
+  else if(id==='sun'){
+    if(wide){
+      const rise=hhmm(S.sunrise),set=hhmm(S.sunset);
+      const nx=nextSun(t);
+      const half=b.w/2;
+      triangle(b.x+p+5,L1-8,9,8,-1,nx.k==="SUNRISE"?c.accent:dim);
+      label("RISE",{x:b.x+p+14,y:L1,color:dim});
+      bigTime({hh:rise.hh,mm:rise.mm,suf:rise.suf,x:b.x+p,y:V,capH:VC-2,maxW:half-p-8,color:ink,sufColor:dim,align:'left'});
+      triangle(b.x+half+p+5,L1-8,9,8,1,nx.k==="SUNSET"?c.accent:dim);
+      label("SET",{x:b.x+half+p+14,y:L1,color:dim});
+      bigTime({hh:set.hh,mm:set.mm,suf:set.suf,x:b.x+half+p,y:V,capH:VC-2,maxW:half-p-8,color:ink,sufColor:dim,align:'left'});
+      R(b.x+half-1,b.y+5,1,b.h-10,dim);
+    }else{
+      const nx=nextSun(t);
+      const at=hhmm(nx.at%1440);
+      triangle(b.x+p+5,L1-8,9,8,nx.d,c.accent===c.panel?ink:c.accent);
+      label(nx.k,{x:b.x+p+14,y:L1,color:dim,maxW:b.w-p*2-16});
+      if(compact){
+        bigTime({hh:at.hh,mm:at.mm,suf:at.suf,x:b.x+p,y:V,capH:VC,maxW:b.w-p*2,color:ink,sufColor:dim,align:'left'});
+      }else{
+        bigTime({hh:at.hh,mm:at.mm,suf:at.suf,x:b.x+p,y:V-12,capH:VC-1,maxW:b.w-p*2,color:ink,sufColor:dim,align:'left'});
+        label("IN "+dur(nx.at-t),{x:b.x+p,y:V,color:dim,maxW:b.w-p*2});
+      }
+    }
+  }
+
+  else if(id==='wx'){
+    skyIcon(b.x+p,b.y+p+(compact?0:2),ink,dim,S.sky);
+    const tx=b.x+p+(wide?30:26);
+    fit(S.temp+"\u00B0",fam,{x:tx,y:V,capH:compact?20:(wide?30:24),maxW:b.w-(tx-b.x)-p-(wide?44:0),color:ink});
+    if(wide&&!compact){
+      label("HI "+S.hi,{x:b.x+b.w-p,y:b.y+b.h/2-2,color:dim,align:'right',maxW:46});
+      label("LO "+S.lo,{x:b.x+b.w-p,y:b.y+b.h/2+13,color:dim,align:'right',maxW:46});
+    }else{
+      label(S.hi+"/"+S.lo,{x:b.x+b.w-p,y:L1,color:dim,align:'right',capH:8,maxW:b.w-p*2-28});
+    }
+  }
+
+  else if(id==='date'){
+    /* race number plate */
+    const px=b.x+p, py=b.y+p, pw=b.w-p*2, ph=b.h-p*2;
+    frame(px,py,pw,ph,2,ink);
+    R(px+pw/2-9,py,7,2,c.panel);   /* zip-tie punches in the plate */
+    R(px+pw/2+2,py,7,2,c.panel);
+    const plateY=b.y+b.h-p-6;
+    /* the number gets exactly what the header row leaves, never more */
+    const headBase=py+(wide?13:12);
+    const numH=Math.max(10,Math.min(VC+2,plateY-headBase-5));
+    if(wide){
+      label(S.dow,{x:px+6,y:headBase,color:ink,maxW:pw*0.4});
+      fit(String(S.dd),fam,{x:b.x+b.w/2,y:plateY,capH:numH,maxW:pw-80,color:ink,align:'center'});
+      label(S.monLong,{x:px+pw-6,y:headBase,color:ink,align:'right',maxW:pw*0.45});
+    }else{
+      /* both header labels ride the same 8 px rung so they cannot collide */
+      label(S.dow,{x:px+6,y:headBase,color:ink,capH:6,maxW:pw/2-8});
+      label(S.mon,{x:px+pw-6,y:headBase,color:ink,capH:6,align:'right',maxW:pw/2-8});
+      fit(String(S.dd),fam,{x:px+pw/2,y:plateY,capH:numH,maxW:pw-14,color:ink,align:'center'});
+    }
+  }
+}
+function hex(h){return [parseInt(h.substr(1,2),16),parseInt(h.substr(3,2),16),parseInt(h.substr(5,2),16)];}
+function snap(v){return Math.round(Math.max(0,Math.min(255,v))/85)*85;}
+function rgb(r,g,b){const f=n=>('0'+n.toString(16)).slice(-2);return '#'+f(r)+f(g)+f(b);}
+
+/* layout the one-or-two complication boxes inside a given band */
+function compBoxes(x,y,w,h,gap){
+  const n=state.comps.length;
+  if(n<=1)return [{x:x,y:y,w:w,h:h}];
+  const cw=Math.floor((w-gap)/2);
+  return [{x:x,y:y,w:cw,h:h},{x:x+w-cw,y:y,w:cw,h:h}];
+}
+function drawComps(x,y,w,h,gap,L,t){
+  const bx=compBoxes(x,y,w,h,gap);
+  state.comps.slice(0,2).forEach((id,i)=>{if(bx[i])drawComp(id,bx[i],L,t);});
+}
+
+/* ============================== 01 \u00B7 CRITERIUM ============================== */
+const PT=14, PERIM=800;
+function ptAt(d){
+  d=((d%PERIM)+PERIM)%PERIM;
+  if(d<=93)return{x:100+d,y:7};
+  if(d<=307)return{x:193,y:7+(d-93)};
+  if(d<=493)return{x:193-(d-307),y:221};
+  if(d<=707)return{x:7,y:221-(d-493)};
+  return{x:7+(d-707),y:7};
+}
+const CORNERS=[93,307,493,707];
+function perim(d0,d1,color){
+  d0=((d0%PERIM)+PERIM)%PERIM; d1=((d1%PERIM)+PERIM)%PERIM;
+  if(d1<d0){perim(d0,PERIM-0.001,color);perim(0,d1,color);return;}
+  const pts=[ptAt(d0)];
+  CORNERS.forEach(c=>{if(c>d0&&c<d1)pts.push(ptAt(c));});
+  pts.push(ptAt(d1));
+  CTX.strokeStyle=color;CTX.lineWidth=PT;CTX.lineJoin='miter';CTX.lineCap='butt';
+  CTX.beginPath();CTX.moveTo(pts[0].x,pts[0].y);
+  for(let i=1;i<pts.length;i++)CTX.lineTo(pts[i].x,pts[i].y);
+  CTX.stroke();
+}
+const dOf=m=>m/1440*PERIM;
+
+function drawCriterium(L,t){
+  const c=L.c;
+  R(0,0,W,H,c.bg);
+  /* the day track */
+  perim(0,PERIM-0.001,c.night);
+  perim(dOf(S.sunrise),dOf(S.sunset),c.day);
+  perim(dOf(S.sunset-60),dOf(S.sunset),c.accent);          /* flamme rouge */
+  /* boundary marks resolve against the surfaces they actually sit on */
+  const mk=markOn([c.day,c.night,c.accent],c);
+  perim(dOf(S.sunrise)-2,dOf(S.sunrise)+2,mk);
+  perim(dOf(S.sunset)-2,dOf(S.sunset)+2,mk);
+  /* start / finish at midnight, top dead centre */
+  checker(94,0,12,PT,3,2,c.chk,c.bg);
+  /* now */
+  const p=ptAt(dOf(t));
+  R(p.x-9,p.y-9,18,18,c.bg);
+  wheel(p.x,p.y,7,markOn([c.bg],c),c.bg);
+
+  /* interior */
+  drawSwatch(23,17,40,27,L,true);
+  const tag=alertTag(t);
+  if(tag)label(tag,{x:176,y:36,color:c.accent,capH:9,maxW:120,align:'right'});
+
+  const two=state.comps.length>1;
+  const z=hhmm(t);
+  bigTime({hh:z.hh,mm:z.mm,suf:z.suf,x:100,y:two?122:128,capH:two?58:64,maxW:two?150:162,color:c.ink,colonColor:c.accent,sufColor:c.dim,align:'center'});
+  R(30,two?134:142,140,2,c.dim);
+
+  if(two)drawComps(18,150,164,56,8,L,t);
+  else drawComps(22,158,156,50,8,L,t);
+}
+
+/* ============================== 02 \u00B7 ROUTE ============================== */
+/* ============================== 02 \u00B7 PAVE ============================== */
+function lum(h){const p=hex(h);return 0.299*p[0]+0.587*p[1]+0.114*p[2];}
+/* a palette this small will happily hand you yellow on white; refuse it */
+function readable(fg,bg,alt){return Math.abs(lum(fg)-lum(bg))<60?alt:fg;}
+/* Pick the mark colour for something drawn ON the track. A livery may legitimately
+   want white in two roles; what it must never do is paint a white tick on a white
+   surface. This resolves per surface instead of trusting the palette. */
+function markOn(surfaces,c){
+  const cands=[c.ink,c.bg,"#FFFFFF","#000000"];
+  let best=cands[0],score=-1;
+  cands.forEach(k=>{
+    const sc=Math.min.apply(null,surfaces.map(x=>Math.abs(lum(k)-lum(x))));
+    if(sc>score){score=sc;best=k;}
+  });
+  return best;
+}
+/* the one ambient tag: only speaks when the last hour of light starts */
+function alertTag(t){return (t>=S.sunset-60&&t<S.sunset)?"FLAMME ROUGE":null;}
+function drawPave(L,t){
+  const c=L.c;
+  const M=L.multi||[c.accent,c.day,c.night,c.panel];
+  const gut=lum(c.bg)>128?c.line:c.ink;   /* the mortar between the stones */
+  R(0,0,W,H,gut);
+  /* A: time */
+  R(0,0,136,110,c.bg);
+  /* B: the kit, at the only size on the board where it can be read as a garment */
+  drawSwatch(139,0,61,110,L);
+  /* D: complications */
+  const two=state.comps.length>1;
+  if(two){
+    drawComp(state.comps[0],{x:0,y:113,w:98,h:63},L,t);
+    drawComp(state.comps[1],{x:101,y:113,w:99,h:63},L,t);
+  }else{
+    drawComp(state.comps[0],{x:0,y:113,w:200,h:63},L,t);
+  }
+  /* E: the day as 24 cells */
+  R(0,179,W,H-179,c.bg);
+  const nowH=Math.floor(t/60);
+  for(let i=0;i<24;i++){
+    const x=4+i*8, mid=i*60+30;
+    let col=(mid>=S.sunrise&&mid<S.sunset)?c.day:c.night;
+    if(mid>=S.sunset-60&&mid<S.sunset)col=c.accent;
+    R(x,188,7,16,col);
+    if(i===nowH){R(x-1,185,9,22,c.ink);R(x,188,7,16,col);R(x+2,194,3,4,c.ink);}
+  }
+  R(4,183,192,2,c.dim);
+  R(Math.round(4+S.sunrise/1440*192),181,2,6,c.ink);
+  R(Math.round(4+S.sunset/1440*192),181,2,6,c.ink);
+  /* F: livery band */
+  R(0,210,W,18,M[2]);
+  R(0,210,W,2,gut);
+  checker(0,210,24,18,3,2,c.chk,c.bg);
+  label(L.name.toUpperCase(),{x:196,y:223,color:contrastInk(M[2],c),capH:9,maxW:150,align:'right'});
+
+  /* time last so it sits above nothing */
+  const z=hhmm(t);
+  bigTime({hh:z.hh,mm:z.mm,suf:z.suf,x:68,y:78,capH:56,maxW:124,color:c.ink,colonColor:M[0],sufColor:c.dim,align:'center'});
+  const tag=alertTag(t);
+  if(tag)label(tag,{x:68,y:98,color:c.accent,capH:9,maxW:128,align:'center'});
+}
+function contrastInk(bg,c){
+  const p=hex(bg);const lum=0.299*p[0]+0.587*p[1]+0.114*p[2];
+  return lum>150?"#000000":"#FFFFFF";
+}
+
+const DRAW={criterium:drawCriterium,pave:drawPave};
+
+/* ============================== POST PROCESS ============================== */
+function post(ctx){
+  if(!state.quant&&!state.epaper)return;
+  const img=ctx.getImageData(0,0,W,H),a=img.data;
+  for(let i=0;i<a.length;i+=4){
+    let r=a[i],g=a[i+1],b=a[i+2];
+    if(state.quant){r=Math.round(r/85)*85;g=Math.round(g/85)*85;b=Math.round(b/85)*85;}
+    if(state.epaper){
+      const lum=0.299*r+0.587*g+0.114*b, sat=0.70;
+      r=lum+(r-lum)*sat; g=lum+(g-lum)*sat; b=lum+(b-lum)*sat;
+      r=30+r*(226-30)/255; g=30+g*(222-30)/255; b=28+b*(210-28)/255;
+    }
+    a[i]=r;a[i+1]=g;a[i+2]=b;
+  }
+  ctx.putImageData(img,0,0);
+}
+function render(canvas,conceptId,liveryId){
+  const ctx=canvas.getContext('2d',{willReadFrequently:true});
+  CTX=ctx;
+  ctx.clearRect(0,0,W,H);
+  const L=LIVERIES.find(l=>l.id===(liveryId||state.livery));
+  DRAW[conceptId](L,state.t);
+  post(ctx);
+}
+
+/* ============================== DOM ============================== */
+function device(conceptId,zoom,cls){
+  const d=document.createElement('div');
+  d.className='dev'+(state.casing?'':' bare')+(cls?(' '+cls):'');
+  d.style.setProperty('--z',zoom);
+  d.innerHTML='<span class="btn l"></span><span class="btn r r1"></span><span class="btn r r2"></span><span class="btn r r3"></span>';
+  const bez=document.createElement('span');bez.className='bez';
+  const cv=document.createElement('canvas');cv.width=W;cv.height=H;
+  cv.setAttribute('role','img');
+  bez.appendChild(cv);d.appendChild(bez);
+  d.dataset.concept=conceptId;
+  return d;
+}
+
+const DEEP=[
+ {id:"criterium",tag:"The day as one lap.",
+  body:[
+   "This is Halcyon's idea, rebuilt for a screen that is a rectangle and for someone who already thinks in laps. The 24-hour track runs the full <strong>perimeter</strong> of the display: midnight is the start/finish line at top dead centre, and time runs clockwise. Daylight is the lit surface, night is the dark surface, and the two marks where they change are sunrise and sunset. The wheel riding the track is now.",
+   "The perimeter is the most valuable free space on the watch, because it costs nothing in the middle. It also does the job a bezel does on a real watch \u2014 it frames the display and gives it an edge \u2014 and it hands every livery an enormous, unmissable band of colour, which is what makes theming work at all on a 1.5-inch screen.",
+   "The corner block is a <strong>swatch of the kit\u2019s own fabric</strong> \u2014 Mapei\u2019s cubes, Ineos\u2019s dithered drip, Surly\u2019s check, Espresso\u2019s retro bands. A patch of pattern has no silhouette to get wrong, which is why it survives where a drawn jersey did not: every pixel is cloth, and a weave is the one kind of graphic that gets <em>better</em> as resolution drops. It is cut with a hard edge so a fabric whose own ground matches the field still reads as a piece of cloth rather than floating bars.",
+   "The last hour before sunset burns in the accent colour. That's the <strong>flamme rouge</strong>, the red kite at 1 km to go, and it is a direct translation of the Brew's 24\u201335 second espresso zone: a joke that is also the most useful thing on the scale. At 7 pm in August it tells you whether you get the full loop or the short one."
+  ],
+  trade:"<b>Trade-off:</b> the corners are where the eye reads angular position worst, so the perimeter is a coarse instrument \u2014 good to about ten minutes. It gives you the <em>sense</em> of the day; the Sun complication gives you the numbers."},
+ {id:"pave",tag:"Everything is a block \u2014 including the hours.",
+  body:[
+   "The pav\u00E9: a rigid grid where every element is a filled rectangle with a hard gutter between it and its neighbour. The day track stops pretending to be continuous and becomes <strong>24 discrete cells</strong>, one per hour, with hairline-free ticks marking the exact minute of sunrise and sunset above them. The current hour is the cell wearing a frame.",
+   "This is the only one of the four where the low resolution is the <em>point</em> rather than the constraint. It also has by far the strongest theming: La Vie Claire and Mapei were Mondrian and a colour-chip chart before either was a watchface, so the heritage liveries stop being a palette swap and start being the actual composition. Try it in Mapei.",
+   "The whole right-hand block is given over to the fabric at full size \u2014 a bolt of the kit rather than a corner swatch. In Mapei and La Vie Claire it stops being decoration and becomes the loudest thing on the watch, which is the correct outcome for those two kits.",
+   "It's also the easiest to read from a metre away \u2014 solid blocks of colour survive being glanced at in a paceline in a way that fine layout does not."
+  ],
+  trade:"<b>Trade-off:</b> one cell equals one hour, so this is the coarsest day track of the four. It's also the most opinionated \u2014 a face this loud is either the one you wear for a year, or the one you get tired of in a week."}
+];
+
+function buildDeep(){
+  const host=document.getElementById('deep');
+  DEEP.forEach((d,i)=>{
+    const meta=CONCEPTS.find(c=>c.id===d.id);
+    const row=document.createElement('div');row.className='deep';
+    const stage=document.createElement('div');stage.className='stage';
+    stage.appendChild(device(d.id,state.zoom,'deep-dev'));
+    const cap=document.createElement('span');cap.className='mono';cap.style.color='var(--ink-3)';
+    cap.textContent='200 \u00D7 228 \u00B7 shown at ' + state.zoom + '\u00D7';
+    cap.dataset.cap='1';
+    stage.appendChild(cap);
+    const txt=document.createElement('div');
+    txt.innerHTML='<h3><em>'+meta.n+' / two</em>'+meta.name+'</h3>'+
+      '<p class="tagline">'+d.tag+'</p>'+
+      d.body.map(p=>'<p>'+p+'</p>').join('')+
+      '<div class="tradeoff">'+d.trade+'</div>';
+    row.appendChild(stage);row.appendChild(txt);
+    host.appendChild(row);
+  });
+}
+function buildGrid(){
+  const host=document.getElementById('grid');
+  CONCEPTS.forEach(c=>{
+    const card=document.createElement('div');card.className='card';
+    card.appendChild(device(c.id,state.zoom,'grid-dev'));
+    const n=document.createElement('div');n.className='name';
+    n.innerHTML='<em>'+c.n+'</em>'+c.name;
+    const th=document.createElement('div');th.className='thesis';th.textContent=c.thesis;
+    card.appendChild(n);card.appendChild(th);
+    host.appendChild(card);
+  });
+}
+function buildLiveries(){
+  const host=document.getElementById('liveries');
+  const groups=[...new Set(LIVERIES.map(l=>l.group))];
+  groups.forEach(gname=>{
+    const g=document.createElement('div');g.className='liv-group';
+    g.innerHTML='<span class="eyebrow">'+gname+'</span>';
+    const grid=document.createElement('div');grid.className='liv-grid';
+    LIVERIES.filter(l=>l.group===gname).forEach(l=>{
+      const keys=[['bg','FIELD'],['day','DAY'],['night','NIGHT'],['accent','ACCENT'],['ink','INK']];
+      const d=document.createElement('div');d.className='liv';d.dataset.liv=l.id;
+      d.innerHTML='<div class="n"><span>'+l.name+'</span><u>ON</u></div><div class="d">'+l.note+'</div>'+
+        '<div class="ramp">'+keys.map(k=>'<div><i style="background:'+l.c[k[0]]+'"></i><em>'+k[1]+'</em><b>'+l.c[k[0]].replace('#','')+'</b></div>').join('')+'</div>';
+      d.tabIndex=0;d.setAttribute('role','button');
+      d.addEventListener('click',()=>{state.livery=l.id;syncChips();renderAll();});
+      d.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();state.livery=l.id;syncChips();renderAll();}});
+      grid.appendChild(d);
+    });
+    g.appendChild(grid);host.appendChild(g);
+  });
+}
+const COMP_COPY={
+  gmt:"A named zone, not a raw offset. City tag, its local time, and a pip that is filled in their daylight and hollow after dark. Defaults to Paris.",
+  moon:"Drawn as a real pixel disc with a stepped terminator, so it looks like the hardware rather than a smoothed icon. Percentage illuminated, plus the phase name.",
+  sun:"The face already shows you roughly where the sun is. This gives you the exact figures \u2014 both events side by side when wide, the next one with a countdown when narrow.",
+  wx:"Current temperature at the largest size, high and low subordinate, and a blocky sky glyph built from squares. No pressure graph, no wind rose.",
+  date:"A race number plate with a punched border. Weekday, the day at plate size, month abbreviated \u2014 spelled out when it gets the wide slot."
+};
+function buildWall(){
+  const host=document.getElementById('wall');
+  LIVERIES.forEach(l=>{
+    const cell=document.createElement('div');cell.className='cell';
+    const d=device(state.wall,state.zoom,'wall-dev');
+    d.dataset.livery=l.id;
+    const n=document.createElement('span');n.textContent=l.name;
+    cell.appendChild(d);cell.appendChild(n);
+    host.appendChild(cell);
+  });
+  const sel=document.getElementById('c-wall');
+  CONCEPTS.forEach(cc=>{
+    sel.appendChild(chip(cc.name,state.wall===cc.id,()=>{
+      state.wall=cc.id;
+      document.querySelectorAll('.wall-dev').forEach(d=>d.dataset.concept=cc.id);
+      syncChips();renderAll();
+    }));
+  });
+}
+function buildComps(){
+  const host=document.getElementById('comps');
+  COMPS.forEach(c=>{
+    const w=document.createElement('div');w.className='comp';
+    const shot=document.createElement('div');shot.className='shot';
+    const c1=document.createElement('canvas');c1.width=172;c1.height=56;c1.style.width='344px';c1.style.height='112px';
+    const c2=document.createElement('canvas');c2.width=82;c2.height=56;c2.style.width='164px';c2.style.height='112px';
+    c1.dataset.comp=c.id;c1.dataset.wide='1';
+    c2.dataset.comp=c.id;
+    shot.appendChild(c1);shot.appendChild(c2);
+    w.appendChild(shot);
+    const h=document.createElement('h4');h.textContent=c.label;
+    const p=document.createElement('p');p.textContent=COMP_COPY[c.id];
+    w.appendChild(h);w.appendChild(p);
+    host.appendChild(w);
+  });
+}
+function renderCompShots(){
+  const L=LIVERIES.find(l=>l.id===state.livery);
+  document.querySelectorAll('.comp canvas').forEach(cv=>{
+    const ctx=cv.getContext('2d',{willReadFrequently:true});
+    CTX=ctx;
+    ctx.fillStyle=L.c.bg;ctx.fillRect(0,0,cv.width,cv.height);
+    drawComp(cv.dataset.comp,{x:0,y:0,w:cv.width,h:cv.height},L,state.t);
+    if(state.quant||state.epaper){
+      const img=ctx.getImageData(0,0,cv.width,cv.height),a=img.data;
+      for(let i=0;i<a.length;i+=4){
+        let r=a[i],g=a[i+1],b=a[i+2];
+        if(state.quant){r=Math.round(r/85)*85;g=Math.round(g/85)*85;b=Math.round(b/85)*85;}
+        if(state.epaper){
+          const lum=0.299*r+0.587*g+0.114*b,s=0.70;
+          r=lum+(r-lum)*s;g=lum+(g-lum)*s;b=lum+(b-lum)*s;
+          r=30+r*(226-30)/255;g=30+g*(222-30)/255;b=28+b*(210-28)/255;
+        }
+        a[i]=r;a[i+1]=g;a[i+2]=b;
+      }
+      ctx.putImageData(img,0,0);
+    }
+  });
+}
+
+/* ---------- control bar ---------- */
+function chip(text,pressed,onClick,swatch){
+  const b=document.createElement('button');
+  b.className='chip';b.type='button';
+  b.setAttribute('aria-pressed',pressed?'true':'false');
+  if(swatch)b.innerHTML='<span class="sw"><i style="background:'+swatch+'"></i></span>';
+  b.appendChild(document.createTextNode(text));
+  b.addEventListener('click',onClick);
+  return b;
+}
+function buildControls(){
+  const lv=document.getElementById('c-livery');
+  LIVERIES.forEach(l=>{
+    lv.appendChild(chip(l.name,state.livery===l.id,()=>{state.livery=l.id;syncChips();renderAll();},l.c.day));
+  });
+  const cp=document.getElementById('c-comps');
+  COMPS.forEach(c=>{
+    cp.appendChild(chip(c.label,state.comps.includes(c.id),()=>{
+      const i=state.comps.indexOf(c.id);
+      if(i>=0){ if(state.comps.length>1) state.comps.splice(i,1); }
+      else { state.comps.push(c.id); if(state.comps.length>2)state.comps.shift(); }
+      syncChips();renderAll();
+    }));
+  });
+  const rn=document.getElementById('c-render');
+  rn.appendChild(chip('64-colour',state.quant,()=>{state.quant=!state.quant;syncChips();renderAll();}));
+  rn.appendChild(chip('E-paper sim',state.epaper,()=>{state.epaper=!state.epaper;syncChips();renderAll();}));
+  rn.appendChild(chip('Case',state.casing,()=>{state.casing=!state.casing;syncChips();applyCase();}));
+  rn.appendChild(chip('12-hour',state.h12,()=>{state.h12=!state.h12;syncChips();renderAll();}));
+  const zm=document.getElementById('c-zoom');
+  [1,2,3].forEach(z=>{
+    zm.appendChild(chip(z+'\u00D7',state.zoom===z,()=>{state.zoom=z;syncChips();applyZoom();}));
+  });
+  const sl=document.getElementById('c-time');
+  sl.value=state.t;
+  sl.addEventListener('input',()=>{state.t=+sl.value;document.getElementById('c-clock').textContent=clockLabel();renderAll();});
+  document.getElementById('c-clock').textContent=clockLabel();
+}
+function clockLabel(){const z=hhmm(state.t);return z.hh+':'+z.mm+(z.suf?(' '+z.suf):'');}
+function syncChips(){
+  const set=(host,vals)=>{
+    [...document.getElementById(host).children].forEach((b,i)=>b.setAttribute('aria-pressed',vals[i]?'true':'false'));
+  };
+  set('c-livery',LIVERIES.map(l=>state.livery===l.id));
+  set('c-comps',COMPS.map(c=>state.comps.includes(c.id)));
+  set('c-render',[state.quant,state.epaper,state.casing,state.h12]);
+  set('c-zoom',[1,2,3].map(z=>state.zoom===z));
+  const L=LIVERIES.find(l=>l.id===state.livery);
+  document.getElementById('livename').textContent=L.name+' livery';
+  document.querySelectorAll('[data-liv]').forEach(d=>d.classList.toggle('on',d.dataset.liv===state.livery));
+  const wc=document.getElementById('c-wall');
+  if(wc)[...wc.children].forEach((b,i)=>b.setAttribute('aria-pressed',CONCEPTS[i].id===state.wall?'true':'false'));
+  const wn=document.getElementById('wallname');
+  if(wn)wn.textContent=(CONCEPTS.find(x=>x.id===state.wall)||{}).name+' \u00B7 all eleven';
+}
+function applyZoom(){
+  document.querySelectorAll('.dev').forEach(d=>d.style.setProperty('--z',state.zoom));
+  document.getElementById('grid').classList.toggle('wide-z',state.zoom>2);
+  document.querySelectorAll('[data-cap]').forEach(c=>c.textContent='200 \u00D7 228 \u00B7 shown at '+state.zoom+'\u00D7');
+}
+function applyCase(){
+  document.querySelectorAll('.dev').forEach(d=>d.classList.toggle('bare',!state.casing));
+}
+function renderAll(){
+  document.querySelectorAll('.dev canvas').forEach(cv=>{
+    const dev=cv.parentElement.parentElement;
+    render(cv,dev.dataset.concept,dev.dataset.livery);
+  });
+  renderCompShots();
+}
+
+/* ---------- boot ---------- */
+buildGrid();buildDeep();buildLiveries();buildWall();buildComps();buildControls();syncChips();applyZoom();
+
+function boot(){renderAll();}
+if(document.fonts&&document.fonts.load){
+  Promise.all([
+    document.fonts.load('40px Anton'),
+    document.fonts.load('16px Silkscreen'),
+    document.fonts.load('700 16px Silkscreen')
+  ]).then(()=>document.fonts.ready).then(()=>{capCache.__reset=1;for(const k in capCache)delete capCache[k];boot();}).catch(boot);
+}else{boot();}
+boot();
+})();
+</script>

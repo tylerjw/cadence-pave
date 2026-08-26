@@ -1,0 +1,75 @@
+{
+  "name": "cadence-pave",
+  "author": "Tyler Weaver",
+  "version": "1.0.0",
+  "keywords": ["pebble-app", "watchface", "cycling"],
+  "private": true,
+  "dependencies": {
+    "pebble-clay": "^1.0.4"
+  },
+  "pebble": {
+    "displayName": "Cadence Pave",
+    "uuid": "73a54b3c-0669-4dae-837e-7773a32e2f10",
+    "sdkVersion": "3",
+    "enableMultiJS": true,
+    "targetPlatforms": ["emery"],
+    "watchapp": {
+      "watchface": true
+    },
+    "messageKeys": [
+      "LIVERY",
+      "COMP1",
+      "COMP2",
+      "UNITS",
+      "TZ_OFFSET",
+      "TZ_LABEL",
+      "TEMP",
+      "HI",
+      "LO",
+      "COND",
+      "SUNRISE",
+      "SUNSET",
+      "WX_ERR"
+    ],
+    "resources": {
+      "media": [
+        {
+          "type": "font",
+          "name": "FONT_ANTON_54",
+          "file": "fonts/Anton-Regular.ttf",
+          "characterRegex": "[0-9]"
+        },
+        {
+          "type": "font",
+          "name": "FONT_ANTON_34",
+          "file": "fonts/Anton-Regular.ttf",
+          "characterRegex": "[0-9°%]"
+        },
+        {
+          "type": "font",
+          "name": "FONT_ANTON_27",
+          "file": "fonts/Anton-Regular.ttf",
+          "characterRegex": "[0-9°%]"
+        },
+        {
+          "type": "font",
+          "name": "FONT_SILK_16",
+          "file": "fonts/Silkscreen-Regular.ttf",
+          "characterRegex": "[A-Z0-9 :/+.°%-]"
+        },
+        {
+          "type": "font",
+          "name": "FONT_SILK_12",
+          "file": "fonts/Silkscreen-Regular.ttf",
+          "characterRegex": "[A-Z0-9 :/+.°%-]"
+        },
+        {
+          "type": "font",
+          "name": "FONT_SILK_8",
+          "file": "fonts/Silkscreen-Regular.ttf",
+          "characterRegex": "[A-Z0-9 :/+.°%-]"
+        }
+      ]
+    }
+  }
+}
