@@ -1,7 +1,7 @@
 {
   "name": "cadence-pave",
   "author": "Tyler Weaver",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "keywords": ["pebble-app", "watchface", "cycling"],
   "private": true,
   "dependencies": {
