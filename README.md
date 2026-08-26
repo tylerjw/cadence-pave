@@ -206,6 +206,18 @@ instead. Screenshot filenames must start with the platform name.
 
 Bump `version` in `package.json` for each release and pass `--release-notes`.
 
+Listing assets are captured from a **real watch**, not the emulator — the emulator has
+no weather, so its captures show `--` placeholders:
+
+```sh
+./tools/capture-store-assets.sh            # via the cloud relay, needs `pebble login`
+./tools/capture-store-assets.sh <phone-ip> # or direct, if you know the IP
+```
+
+It cycles livery and complications by app message, screenshots each, rejects any frame
+where a notification landed on top of the face, restores your settings, and builds
+`store/emery_liveries.gif`. Store copy lives in `store/description.md`.
+
 ## A note on the kit names
 
 This project is not affiliated with, endorsed by, or sponsored by any of the brands or

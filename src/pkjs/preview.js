@@ -312,11 +312,12 @@ module.exports = function cadencePreview() {
         timeBlock(bx + bw / 2, valY, vcap, pad2(zh), pad2(zm), ink, ink);
 
       } else if (id === 2) {                            /* moon phase */
-        var r = wide ? 17 : 13;
+        var r = wide ? 17 : 12;
         moonDisc(bx + p + r, by + bh / 2, r, 62, true, ink, blend(ink, l.panel, 45));
-        var tx = bx + p + r * 2 + 8;
+        var tx = bx + p + r * 2 + 6;
         silk('WAX GIB', tx, labY, bw - (tx - bx) - p, 'left', dim);
-        heavy('62%', tx, valY, vcap, ink);
+        heavy('62', tx, valY, vcap, ink);
+        silk('%', tx + heavyW('62', vcap) + 3, valY + vcap - 10, 16, 'left', dim, 0);
 
       } else if (id === 3) {                            /* sunrise / sunset */
         if (wide) {

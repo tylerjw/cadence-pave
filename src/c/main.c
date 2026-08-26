@@ -545,13 +545,21 @@ static void draw_comp(int id, int bx, int by, int bw, int bh, const Livery *L) {
     case COMP_MOON: {
       int32_t c; bool waxing;
       int pct = moon_pct(time(NULL), &c, &waxing);
-      int r = wide ? 17 : 13;
+      int r = wide ? 17 : 12;
       draw_moon(bx + p + r, by + bh / 2, r, c, waxing, ink, blend(ink, L->panel, 45));
-      int tx = bx + p + r * 2 + 8;
+      int tx = bx + p + r * 2 + 6;
       silk_fit(moon_name(pct, waxing), tx, lab_y, bw - (tx - bx) - p,
              GTextAlignmentLeft, dim);
-      snprintf(buf, sizeof(buf), "%d%%", pct);
-      text_at(buf, vf, vtrim, tx, val_y, bw - (tx - bx) - p, GTextAlignmentLeft, ink);
+      /* Anton's '%' is wider than two digits, so a full-size one pushes the
+       * number onto a second line and gets clipped. Draw it as a small unit
+       * marker on the number's baseline instead. */
+      snprintf(buf, sizeof(buf), "%d", pct);
+      int nw = text_w(buf, vf);
+      int room = bw - (tx - bx) - p - 13;
+      text_at(buf, vf, vtrim, tx, val_y, room, GTextAlignmentLeft, ink);
+      if (nw > room) nw = room;
+      silk16("%", tx + nw + 3, val_y + vcap - CAP_SILK_16, 16,
+             GTextAlignmentLeft, dim);
       break;
     }
 

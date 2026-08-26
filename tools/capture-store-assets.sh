@@ -2,20 +2,25 @@
 #
 # Capture store screenshots and a livery-cycling GIF from a REAL watch.
 #
-#   ./tools/capture-store-assets.sh 192.168.1.42
+#   ./tools/capture-store-assets.sh                 # via the cloud (needs `pebble login`)
+#   ./tools/capture-store-assets.sh 192.168.1.42    # direct, if you know the phone IP
 #
-# Needs Dev Connect enabled in the Pebble app (Devices -> ... -> Dev Connect);
-# that screen shows the phone's IP. Everything lands in ./store/.
+# Needs Dev Connect enabled in the Pebble app (Devices -> ... -> Dev Connect).
+# Everything lands in ./store/.
 #
 # Uses the real device rather than the emulator on purpose: the emulator has no
 # weather and its pypkjs side is unreliable, so its captures show "--" placeholders.
 
 set -euo pipefail
 
+# No IP given -> go through the CloudPebble relay instead of a direct socket.
 IP="${1:-}"
-if [ -z "$IP" ]; then
-  echo "usage: $0 <phone-ip>" >&2
-  exit 1
+if [ -n "$IP" ]; then
+  CONN=(--phone "$IP")
+  WHERE="$IP"
+else
+  CONN=(--cloudpebble)
+  WHERE="the cloud relay"
 fi
 
 PEBBLE="${PEBBLE:-$HOME/.local/bin/pebble}"
@@ -36,18 +41,32 @@ FRAMES=(
   "1:1:2:7_surly"
 )
 
-echo "Capturing ${#FRAMES[@]} frames from $IP"
+echo "Capturing ${#FRAMES[@]} frames via $WHERE"
 for spec in "${FRAMES[@]}"; do
   IFS=: read -r liv c1 c2 name <<< "$spec"
-  "$PEBBLE" send-app-message --phone "$IP" \
+  "$PEBBLE" send-app-message "${CONN[@]}" \
       --int 10000="$liv" 10001="$c1" 10002="$c2" >/dev/null 2>&1
-  sleep 2                                    # let the watch redraw
-  "$PEBBLE" screenshot --phone "$IP" --no-open "$OUT/emery_$name.png" >/dev/null 2>&1
-  echo "  emery_$name.png"
+  sleep 3                                    # let the watch redraw
+  # A notification landing on top of the face would be captured instead of it,
+  # so verify each frame and retry rather than shipping someone's calendar.
+  for attempt in 1 2 3 4; do
+    rm -f "$OUT/emery_$name.png"
+    "$PEBBLE" screenshot "${CONN[@]}" --no-open "$OUT/emery_$name.png" >/dev/null 2>&1 || true
+    if [ -f "$OUT/emery_$name.png" ] && python3 tools/is_watchface.py "$OUT/emery_$name.png" >/dev/null 2>&1; then
+      echo "  emery_$name.png"
+      break
+    fi
+    echo "  emery_$name.png - not the watchface, retrying ($attempt)"
+    rm -f "$OUT/emery_$name.png"
+    sleep 8
+  done
 done
 
-# Put the watch back on the default livery
-"$PEBBLE" send-app-message --phone "$IP" --int 10000=0 10001=3 10002=4 >/dev/null 2>&1
+# Put the watch back the way it was found. Override with RESTORE="liv:c1:c2".
+IFS=: read -r rl rc1 rc2 <<< "${RESTORE:-4:1:5}"
+"$PEBBLE" send-app-message "${CONN[@]}" \
+    --int 10000="$rl" 10001="$rc1" 10002="$rc2" >/dev/null 2>&1
+echo "restored livery $rl, complications $rc1/$rc2"
 
 # Livery-cycling GIF: each kit with a different pair of complications.
 if command -v ffmpeg >/dev/null; then
