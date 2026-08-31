@@ -8,7 +8,12 @@ is a filled rectangle with a hard gutter between it and its neighbour, because t
 what a 202 ppi reflective screen is actually good at. The right-hand block is a swatch
 of the livery's own fabric.
 
-Built from the round-three prototype in [`design/round-1.html`](design/round-1.html).
+Available on the Pebble appstore: https://apps.repebble.com/7e4d835448be4ebdb749565a
+
+Built from the prototype board in [`design/round-1.html`](design/round-1.html). Why it
+looks like this, and what was tried and rejected, is in
+[`design/DECISIONS.md`](design/DECISIONS.md). Release process and the invariants that
+bite are in [`MAINTAINING.md`](MAINTAINING.md).
 
 ---
 
